@@ -1,5 +1,6 @@
+require('dotenv').config();
 
-const googleMapsAPIKey = "AIzaSyATpG42RkE_ouiT5AyhfkKl2OxAiepaTT0";  // Reemplaza esto con tu clave de API real
+const googleMapsAPIKey = process.env.GOOGLE_MAPS_API_KEY;
 
 async function initMap() {
   const response = await fetch("reportes.json");
