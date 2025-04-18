@@ -1,0 +1,43 @@
+[
+  {
+    "lat": 4.651,
+    "lng": -74.0628,
+    "barrio": "La Candelaria",
+    "hora": "10:15 AM",
+    "detalle": "Robo de celular en la esquina del museo"
+  },
+  {
+    "lat": 4.663,
+    "lng": -74.073,
+    "barrio": "Chapinero",
+    "hora": "8:45 PM",
+    "detalle": "Me robaron la bici cerca a la universidad"
+  },
+  {
+    "lat": 4.636264,
+    "lng": -74.094075,
+    "tipo": "Mis audifonos",
+    "lugar": "Teusaquillo",
+    "hora": "7:30",
+    "fecha": "2025-04-17",
+    "usuario": "Naataaaly"
+  },
+  {
+    "lat": 4.711734,
+    "lng": -74.071571,
+    "tipo": "celular",
+    "lugar": "Teusaquillo",
+    "hora": "19:30",
+    "fecha": "2025-04-17",
+    "usuario": "Naataaaly"
+  },
+  {
+    "lat": 4.710069,
+    "lng": -74.071554,
+    "tipo": "Patineta",
+    "lugar": "en Chapinero",
+    "hora": "A las 15:00",
+    "fecha": "2025-04-17",
+    "usuario": "Naataaaly"
+  }
+]
