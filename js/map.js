@@ -64,7 +64,7 @@ async function initMap() {
       position: { lat: robo.lat, lng: robo.lng },
       map: map,
       icon: {
-        url: "https://maps.gstatic.com/mapfiles/api-3/images/spotlight-poi-dotless_hdpi.png",
+        url: "https://co.pinterest.com/pin/2111131070417027/",
         scaledSize: new google.maps.Size(30, 30),
       },
       title: `Robo en ${robo.barrio}`,
