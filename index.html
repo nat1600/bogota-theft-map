@@ -2,12 +2,647 @@
 <html lang="es">
   <head>
     <meta charset="utf-8" />
-    <title>Mapa de Robos</title>
-    <link rel="stylesheet" href="css/style.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SafeMap Bogotá - Mapa de Seguridad Ciudadana</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        height: 100vh;
+        overflow: hidden;
+      }
+
+      .app-container {
+        display: flex;
+        height: 100vh;
+        position: relative;
+      }
+
+      /* Sidebar */
+      .sidebar {
+        width: 350px;
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(10px);
+        border-right: 1px solid rgba(255, 255, 255, 0.2);
+        display: flex;
+        flex-direction: column;
+        z-index: 1000;
+        box-shadow: 0 0 30px rgba(0, 0, 0, 0.1);
+      }
+
+      .sidebar-header {
+        padding: 30px 25px;
+        background: linear-gradient(135deg, #1e3c72, #2a5298);
+        color: white;
+        border-radius: 0 0 20px 0;
+      }
+
+      .sidebar-header h1 {
+        font-size: 24px;
+        font-weight: 700;
+        margin-bottom: 8px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+
+      .sidebar-header p {
+        font-size: 14px;
+        opacity: 0.9;
+        font-weight: 300;
+      }
+
+      .stats-container {
+        padding: 25px;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+      }
+
+      .stat-card {
+        background: white;
+        border-radius: 15px;
+        padding: 20px;
+        margin-bottom: 15px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+        border: 1px solid rgba(0, 0, 0, 0.05);
+        transition: all 0.3s ease;
+      }
+
+      .stat-card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+      }
+
+      .stat-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 10px;
+      }
+
+      .stat-icon {
+        width: 40px;
+        height: 40px;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 18px;
+        color: white;
+      }
+
+      .stat-icon.danger { background: linear-gradient(135deg, #ff6b6b, #ee5a52); }
+      .stat-icon.warning { background: linear-gradient(135deg, #ffa726, #ff9800); }
+      .stat-icon.safe { background: linear-gradient(135deg, #66bb6a, #4caf50); }
+
+      .stat-number {
+        font-size: 24px;
+        font-weight: 700;
+        color: #2c3e50;
+      }
+
+      .stat-label {
+        font-size: 12px;
+        color: #7f8c8d;
+        text-transform: uppercase;
+        font-weight: 500;
+        letter-spacing: 0.5px;
+      }
+
+      .legend {
+        padding: 25px;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+      }
+
+      .legend h3 {
+        font-size: 16px;
+        margin-bottom: 15px;
+        color: #2c3e50;
+        font-weight: 600;
+      }
+
+      .legend-item {
+        display: flex;
+        align-items: center;
+        margin-bottom: 12px;
+        padding: 8px 12px;
+        border-radius: 8px;
+        transition: background-color 0.2s ease;
+      }
+
+      .legend-item:hover {
+        background-color: rgba(0, 0, 0, 0.05);
+      }
+
+      .legend-color {
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        margin-right: 15px;
+        border: 2px solid rgba(255, 255, 255, 0.9);
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+      }
+
+      .legend-text {
+        font-size: 14px;
+        color: #2c3e50;
+        font-weight: 500;
+      }
+
+      .bot-info {
+        padding: 25px;
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        margin: 20px;
+        border-radius: 15px;
+        color: white;
+        text-align: center;
+      }
+
+      .bot-info h3 {
+        font-size: 18px;
+        margin-bottom: 10px;
+        font-weight: 600;
+      }
+
+      .bot-info p {
+        font-size: 14px;
+        opacity: 0.9;
+        margin-bottom: 15px;
+      }
+
+      .telegram-btn {
+        background: white;
+        color: #667eea;
+        border: none;
+        padding: 12px 20px;
+        border-radius: 25px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .telegram-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+      }
+
+      /* Map container */
+      .map-container {
+        flex: 1;
+        position: relative;
+        overflow: hidden;
+      }
+
+      #map {
+        height: 100%;
+        width: 100%;
+        border-radius: 0;
+        box-shadow: none;
+      }
+
+      /* Floating controls */
+      .floating-controls {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        z-index: 100;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      .control-btn {
+        background: white;
+        border: none;
+        padding: 12px;
+        border-radius: 50%;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        cursor: pointer;
+        transition: all 0.3s ease;
+        width: 48px;
+        height: 48px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 16px;
+        color: #2c3e50;
+      }
+
+      .control-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        background: #f8f9fa;
+      }
+
+      /* Search bar */
+      .search-container {
+        position: absolute;
+        top: 20px;
+        left: 20px;
+        right: 100px;
+        z-index: 100;
+      }
+
+      .search-bar {
+        width: 100%;
+        max-width: 400px;
+        padding: 15px 20px;
+        border: none;
+        border-radius: 25px;
+        background: white;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        font-size: 16px;
+        outline: none;
+        transition: all 0.3s ease;
+      }
+
+      .search-bar:focus {
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        transform: translateY(-2px);
+      }
+
+      .search-bar::placeholder {
+        color: #7f8c8d;
+      }
+
+      /* Loading overlay */
+      .loading-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(255, 255, 255, 0.9);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 2000;
+        opacity: 0;
+        visibility: hidden;
+        transition: all 0.3s ease;
+      }
+
+      .loading-overlay.active {
+        opacity: 1;
+        visibility: visible;
+      }
+
+      .loading-spinner {
+        width: 60px;
+        height: 60px;
+        border: 4px solid #f3f3f3;
+        border-top: 4px solid #667eea;
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+      }
+
+      @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+      }
+
+      /* Responsive */
+      @media (max-width: 768px) {
+        .sidebar {
+          width: 100%;
+          position: absolute;
+          left: -100%;
+          transition: left 0.3s ease;
+          z-index: 1001;
+        }
+
+        .sidebar.active {
+          left: 0;
+        }
+
+        .map-container {
+          width: 100%;
+        }
+
+        .floating-controls {
+          top: 10px;
+          right: 10px;
+        }
+
+        .search-container {
+          left: 10px;
+          right: 80px;
+        }
+      }
+
+      /* Custom InfoWindow styles */
+      .gm-style .gm-style-iw-c {
+        border-radius: 15px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+      }
+
+      .gm-style .gm-style-iw-d {
+        overflow: hidden !important;
+      }
+
+      .custom-info-window {
+        padding: 20px;
+        max-width: 300px;
+        font-family: 'Inter', sans-serif;
+      }
+
+      .info-header {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 15px;
+        padding-bottom: 15px;
+        border-bottom: 1px solid #eee;
+      }
+
+      .info-icon {
+        width: 40px;
+        height: 40px;
+        background: linear-gradient(135deg, #ff6b6b, #ee5a52);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 18px;
+      }
+
+      .info-title {
+        font-size: 16px;
+        font-weight: 600;
+        color: #2c3e50;
+      }
+
+      .info-details {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+
+      .info-detail {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-size: 14px;
+        color: #555;
+      }
+
+      .info-detail i {
+        width: 16px;
+        color: #667eea;
+      }
+
+      /* Toggle button for mobile */
+      .sidebar-toggle {
+        display: none;
+        position: fixed;
+        top: 20px;
+        left: 20px;
+        z-index: 1002;
+        background: white;
+        border: none;
+        padding: 12px;
+        border-radius: 8px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        cursor: pointer;
+        font-size: 18px;
+        color: #2c3e50;
+      }
+
+      @media (max-width: 768px) {
+        .sidebar-toggle {
+          display: block;
+        }
+      }
+    </style>
   </head>
   <body>
-    <div id="map"></div>
+    <div class="app-container">
+      <!-- Sidebar -->
+      <div class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+          <h1>
+            <i class="fas fa-shield-alt"></i>
+            SafeMap Bogotá
+          </h1>
+          <p>Mapa de seguridad ciudadana en tiempo real</p>
+        </div>
 
+        <div class="stats-container">
+          <div class="stat-card">
+            <div class="stat-header">
+              <div class="stat-icon danger">
+                <i class="fas fa-exclamation-triangle"></i>
+              </div>
+              <div>
+                <div class="stat-number" id="dangerZones">0</div>
+                <div class="stat-label">Zonas Peligrosas</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-header">
+              <div class="stat-icon warning">
+                <i class="fas fa-exclamation-circle"></i>
+              </div>
+              <div>
+                <div class="stat-number" id="warningZones">0</div>
+                <div class="stat-label">Zonas Moderadas</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-header">
+              <div class="stat-icon safe">
+                <i class="fas fa-check-circle"></i>
+              </div>
+              <div>
+                <div class="stat-number" id="safeZones">0</div>
+                <div class="stat-label">Zonas Seguras</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="legend">
+          <h3>Leyenda de Riesgo</h3>
+          <div class="legend-item">
+            <div class="legend-color" style="background: #FF0000;"></div>
+            <div class="legend-text">Alto riesgo (10+ reportes)</div>
+          </div>
+          <div class="legend-item">
+            <div class="legend-color" style="background: #FFA500;"></div>
+            <div class="legend-text">Riesgo moderado (5-9 reportes)</div>
+          </div>
+          <div class="legend-item">
+            <div class="legend-color" style="background: #FFFF00;"></div>
+            <div class="legend-text">Riesgo bajo (1-4 reportes)</div>
+          </div>
+        </div>
+
+        <div class="bot-info">
+          <h3>
+            <i class="fab fa-telegram"></i>
+            Reporta un Robo
+          </h3>
+          <p>Ayuda a tu comunidad reportando incidentes de seguridad</p>
+          <a href="https://t.me/ReporteRoboBot" class="telegram-btn">
+            <i class="fab fa-telegram"></i>
+            Abrir Bot
+          </a>
+        </div>
+      </div>
+
+      <!-- Main Map Container -->
+      <div class="map-container">
+        <!-- Search Bar -->
+        <div class="search-container">
+          <input type="text" class="search-bar" placeholder="Buscar dirección o barrio..." id="searchInput">
+        </div>
+
+        <!-- Floating Controls -->
+        <div class="floating-controls">
+          <button class="control-btn" onclick="centerMap()" title="Centrar mapa">
+            <i class="fas fa-crosshairs"></i>
+          </button>
+          <button class="control-btn" onclick="toggleLayer()" title="Cambiar vista">
+            <i class="fas fa-layer-group"></i>
+          </button>
+          <button class="control-btn" onclick="refreshData()" title="Actualizar datos">
+            <i class="fas fa-sync-alt"></i>
+          </button>
+          <button class="control-btn" onclick="toggleFullscreen()" title="Pantalla completa">
+            <i class="fas fa-expand"></i>
+          </button>
+        </div>
+
+        <!-- Map -->
+        <div id="map"></div>
+
+        <!-- Loading Overlay -->
+        <div class="loading-overlay" id="loadingOverlay">
+          <div class="loading-spinner"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Mobile Sidebar Toggle -->
+    <button class="sidebar-toggle" onclick="toggleSidebar()">
+      <i class="fas fa-bars"></i>
+    </button>
+
+    <script>
+      // Funciones auxiliares para la UI
+      function toggleSidebar() {
+        const sidebar = document.getElementById('sidebar');
+        sidebar.classList.toggle('active');
+      }
+
+      function centerMap() {
+        // Esta función se conectará con tu map.js
+        if (window.map) {
+          window.map.setCenter({ lat: 4.711, lng: -74.0721 });
+          window.map.setZoom(13);
+        }
+      }
+
+      function toggleLayer() {
+        // Cambiar entre diferentes vistas del mapa
+        console.log('Changing layer...');
+      }
+
+      function refreshData() {
+        const loadingOverlay = document.getElementById('loadingOverlay');
+        loadingOverlay.classList.add('active');
+        
+        setTimeout(() => {
+          loadingOverlay.classList.remove('active');
+          // Aquí se conectará con tu función de actualización
+        }, 2000);
+      }
+
+      function toggleFullscreen() {
+        if (!document.fullscreenElement) {
+          document.documentElement.requestFullscreen();
+        } else {
+          document.exitFullscreen();
+        }
+      }
+
+      // Actualizar estadísticas (se conectará con tu map.js)
+      function updateStats(dangerCount, warningCount, safeCount) {
+        document.getElementById('dangerZones').textContent = dangerCount;
+        document.getElementById('warningZones').textContent = warningCount;
+        document.getElementById('safeZones').textContent = safeCount;
+      }
+
+      // Cerrar sidebar en mobile al hacer click fuera
+      document.addEventListener('click', function(e) {
+        const sidebar = document.getElementById('sidebar');
+        const sidebarToggle = document.querySelector('.sidebar-toggle');
+        
+        if (window.innerWidth <= 768 && 
+            sidebar.classList.contains('active') && 
+            !sidebar.contains(e.target) && 
+            !sidebarToggle.contains(e.target)) {
+          sidebar.classList.remove('active');
+        }
+      });
+
+      // Función para conectar con tu map.js existente
+      window.updateMapUI = function(data) {
+        // Contar zonas por tipo de riesgo
+        const clusters = [];
+
+    data.forEach(robo => {
+      let added = false;
+      for (const cluster of clusters) {
+        const d = window.getDistanceMeters(
+          cluster.lat, cluster.lng, robo.lat, robo.lng
+        );
+        if (d <= 300) { // Radio de agrupación
+          cluster.count++;
+          added = true;
+          break;
+        }
+      }
+      if (!added) {
+        clusters.push({
+          lat: robo.lat,
+          lng: robo.lng,
+          count: 1
+        });
+      }
+    });
+
+    let dangerZones = 0;
+    let warningZones = 0;
+    let safeZones = 0;
+
+    clusters.forEach(cluster => {
+      if (cluster.count >= 10) dangerZones++;
+      else if (cluster.count >= 5) warningZones++;
+      else safeZones++;
+    });
+
+    updateStats(dangerZones, warningZones, safeZones);
+  };
+    </script>
+
+    <!-- Tu script de mapa original -->
     <script type="module" src="js/map.js"></script>
   </body>
 </html>

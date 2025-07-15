@@ -1,0 +1,130 @@
+[
+  {
+    "lat": 4.711,
+    "lng": -74.0721,
+    "barrio": "Chapinero",
+    "hora": "22:15",
+    "detalle": "Robo de celular en la calle principal."
+  },
+  {
+    "lat": 4.7112,
+    "lng": -74.0723,
+    "barrio": "Chapinero",
+    "hora": "21:40",
+    "detalle": "Atraco a mano armada."
+  },
+  {
+    "lat": 4.7111,
+    "lng": -74.0724,
+    "barrio": "Chapinero",
+    "hora": "20:10",
+    "detalle": "Hurto de bicicleta."
+  },
+  {
+    "lat": 4.7109,
+    "lng": -74.0720,
+    "barrio": "Chapinero",
+    "hora": "19:50",
+    "detalle": "Asalto a peatón."
+  },
+  {
+    "lat": 4.7108,
+    "lng": -74.0722,
+    "barrio": "Chapinero",
+    "hora": "23:05",
+    "detalle": "Robo a vehículo."
+  },
+  {
+    "lat": 4.7115,
+    "lng": -74.0725,
+    "barrio": "Chapinero",
+    "hora": "18:30",
+    "detalle": "Hurto de bolso."
+  },
+  {
+    "lat": 4.7113,
+    "lng": -74.0727,
+    "barrio": "Chapinero",
+    "hora": "17:20",
+    "detalle": "Robo de celular."
+  },
+  {
+    "lat": 4.7114,
+    "lng": -74.0729,
+    "barrio": "Chapinero",
+    "hora": "16:00",
+    "detalle": "Robo a transeúnte."
+  },
+  {
+    "lat": 4.7116,
+    "lng": -74.0731,
+    "barrio": "Chapinero",
+    "hora": "15:45",
+    "detalle": "Asalto armado."
+  },
+  {
+    "lat": 4.7117,
+    "lng": -74.0733,
+    "barrio": "Chapinero",
+    "hora": "14:30",
+    "detalle": "Robo de billetera."
+  },
+
+  {
+    "lat": 4.65,
+    "lng": -74.1,
+    "barrio": "Kennedy",
+    "hora": "21:10",
+    "detalle": "Hurto en bus urbano."
+  },
+  {
+    "lat": 4.6502,
+    "lng": -74.1002,
+    "barrio": "Kennedy",
+    "hora": "20:50",
+    "detalle": "Robo a pasajero de bus."
+  },
+  {
+    "lat": 4.6503,
+    "lng": -74.1001,
+    "barrio": "Kennedy",
+    "hora": "19:30",
+    "detalle": "Robo de celular en estación de Transmilenio."
+  },
+  {
+    "lat": 4.6504,
+    "lng": -74.1003,
+    "barrio": "Kennedy",
+    "hora": "18:20",
+    "detalle": "Asalto a peatón."
+  },
+  {
+    "lat": 4.6505,
+    "lng": -74.1005,
+    "barrio": "Kennedy",
+    "hora": "17:00",
+    "detalle": "Hurto de bicicleta."
+  },
+
+  {
+    "lat": 4.7,
+    "lng": -74.05,
+    "barrio": "Teusaquillo",
+    "hora": "22:00",
+    "detalle": "Intento de hurto sin éxito."
+  },
+  {
+    "lat": 4.7005,
+    "lng": -74.0505,
+    "barrio": "Teusaquillo",
+    "hora": "20:30",
+    "detalle": "Robo de bolso."
+  },
+  {
+    "lat": 4.7002,
+    "lng": -74.0502,
+    "barrio": "Teusaquillo",
+    "hora": "19:45",
+    "detalle": "Robo de celular."
+  }
+]
