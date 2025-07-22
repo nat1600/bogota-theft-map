@@ -1,4 +1,7 @@
 import { googleMapsAPIKey } from './config.js';
+//export const googleMapsAPIKey = "AIzaSyATpG42RkE_ouiT5AyhfkKl2OxAiepaTT0";
+
+
 
 // Función Haversine para calcular distancia en metros
 function getDistanceMeters(lat1, lng1, lat2, lng2) {

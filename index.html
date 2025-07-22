@@ -20,10 +20,195 @@
         overflow: hidden;
       }
 
+      /* CAPTCHA SCREEN STYLES */
+      .captcha-screen {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        z-index: 10000;
+        opacity: 1;
+        visibility: visible;
+        transition: all 0.5s ease;
+      }
+
+      .captcha-screen.hidden {
+        opacity: 0;
+        visibility: hidden;
+        pointer-events: none;
+      }
+
+      .captcha-container {
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(20px);
+        border-radius: 20px;
+        padding: 40px;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        text-align: center;
+        max-width: 400px;
+        width: 90%;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+      }
+
+      .captcha-header {
+        margin-bottom: 30px;
+      }
+
+      .captcha-header h1 {
+        color: #2c3e50;
+        font-size: 28px;
+        font-weight: 700;
+        margin-bottom: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+      }
+
+      .captcha-header p {
+        color: #7f8c8d;
+        font-size: 16px;
+        font-weight: 400;
+      }
+
+      .captcha-status {
+        font-size: 18px;
+        font-weight: 600;
+        margin-bottom: 20px;
+        min-height: 30px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #667eea;
+      }
+
+      .captcha-input-group {
+        margin-bottom: 20px;
+      }
+
+      .captcha-generated {
+        width: 100%;
+        padding: 15px;
+        font-size: 24px;
+        font-weight: bold;
+        text-align: center;
+        text-decoration: line-through;
+        background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+        border: 2px solid #dee2e6;
+        border-radius: 12px;
+        margin-bottom: 15px;
+        color: #495057;
+        letter-spacing: 3px;
+        font-family: 'Courier New', monospace;
+        outline: none;
+        cursor: not-allowed;
+      }
+
+      .captcha-user-input {
+        width: 100%;
+        padding: 15px;
+        font-size: 16px;
+        border: 2px solid #dee2e6;
+        border-radius: 12px;
+        outline: none;
+        transition: all 0.3s ease;
+        text-align: center;
+        font-family: 'Courier New', monospace;
+        letter-spacing: 2px;
+      }
+
+      .captcha-user-input:focus {
+        border-color: #667eea;
+        box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        transform: translateY(-2px);
+      }
+
+      .captcha-buttons {
+        display: flex;
+        gap: 15px;
+        justify-content: center;
+        flex-wrap: wrap;
+      }
+
+      .captcha-btn {
+        padding: 12px 24px;
+        border: none;
+        border-radius: 25px;
+        font-size: 16px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        outline: none;
+        min-width: 120px;
+      }
+
+      .captcha-btn.check {
+        background: linear-gradient(135deg, #28a745, #20c997);
+        color: white;
+      }
+
+      .captcha-btn.check:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(40, 167, 69, 0.3);
+      }
+
+      .captcha-btn.generate {
+        background: linear-gradient(135deg, #dc3545, #fd7e14);
+        color: white;
+      }
+
+      .captcha-btn.generate:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(220, 53, 69, 0.3);
+      }
+
+      .captcha-btn:active {
+        transform: translateY(0);
+      }
+
+      /* Success/Error animations */
+      .captcha-status.success {
+        color: #28a745;
+        animation: bounceIn 0.6s ease;
+      }
+
+      .captcha-status.error {
+        color: #dc3545;
+        animation: shake 0.6s ease;
+      }
+
+      @keyframes bounceIn {
+        0% { transform: scale(0.3); opacity: 0; }
+        50% { transform: scale(1.05); }
+        70% { transform: scale(0.9); }
+        100% { transform: scale(1); opacity: 1; }
+      }
+
+      @keyframes shake {
+        0%, 100% { transform: translateX(0); }
+        10%, 30%, 50%, 70%, 90% { transform: translateX(-10px); }
+        20%, 40%, 60%, 80% { transform: translateX(10px); }
+      }
+
+      /* MAIN APP STYLES (existing styles) */
       .app-container {
         display: flex;
         height: 100vh;
         position: relative;
+        opacity: 0;
+        visibility: hidden;
+        transition: all 0.5s ease;
+      }
+
+      .app-container.visible {
+        opacity: 1;
+        visibility: visible;
       }
 
       /* Sidebar */
@@ -245,37 +430,6 @@
         background: #f8f9fa;
       }
 
-      /* Search bar */
-      .search-container {
-        position: absolute;
-        top: 20px;
-        left: 20px;
-        right: 100px;
-        z-index: 100;
-      }
-
-      .search-bar {
-        width: 100%;
-        max-width: 400px;
-        padding: 15px 20px;
-        border: none;
-        border-radius: 25px;
-        background: white;
-        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-        font-size: 16px;
-        outline: none;
-        transition: all 0.3s ease;
-      }
-
-      .search-bar:focus {
-        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
-        transform: translateY(-2px);
-      }
-
-      .search-bar::placeholder {
-        color: #7f8c8d;
-      }
-
       /* Loading overlay */
       .loading-overlay {
         position: absolute;
@@ -314,6 +468,19 @@
 
       /* Responsive */
       @media (max-width: 768px) {
+        .captcha-container {
+          margin: 20px;
+          padding: 30px;
+        }
+        
+        .captcha-buttons {
+          flex-direction: column;
+        }
+        
+        .captcha-btn {
+          width: 100%;
+        }
+
         .sidebar {
           width: 100%;
           position: absolute;
@@ -334,76 +501,9 @@
           top: 10px;
           right: 10px;
         }
-
-        .search-container {
-          left: 10px;
-          right: 80px;
-        }
       }
 
-      /* Custom InfoWindow styles */
-      .gm-style .gm-style-iw-c {
-        border-radius: 15px;
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-      }
-
-      .gm-style .gm-style-iw-d {
-        overflow: hidden !important;
-      }
-
-      .custom-info-window {
-        padding: 20px;
-        max-width: 300px;
-        font-family: 'Inter', sans-serif;
-      }
-
-      .info-header {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        margin-bottom: 15px;
-        padding-bottom: 15px;
-        border-bottom: 1px solid #eee;
-      }
-
-      .info-icon {
-        width: 40px;
-        height: 40px;
-        background: linear-gradient(135deg, #ff6b6b, #ee5a52);
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: white;
-        font-size: 18px;
-      }
-
-      .info-title {
-        font-size: 16px;
-        font-weight: 600;
-        color: #2c3e50;
-      }
-
-      .info-details {
-        display: flex;
-        flex-direction: column;
-        gap: 8px;
-      }
-
-      .info-detail {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        font-size: 14px;
-        color: #555;
-      }
-
-      .info-detail i {
-        width: 16px;
-        color: #667eea;
-      }
-
-      /* Toggle button for mobile */
+      /* Mobile Sidebar Toggle */
       .sidebar-toggle {
         display: none;
         position: fixed;
@@ -428,7 +528,39 @@
     </style>
   </head>
   <body>
-    <div class="app-container">
+    <!-- CAPTCHA Screen -->
+    <div class="captcha-screen" id="captchaScreen">
+      <div class="captcha-container">
+        <div class="captcha-header">
+          <h1>
+            <i class="fas fa-shield-alt"></i>
+            SafeMap Bogotá
+          </h1>
+          <p>Verificación de seguridad</p>
+        </div>
+        
+        <div class="captcha-status" id="captchaStatus">
+          Por favor, complete el captcha para acceder
+        </div>
+        
+        <div class="captcha-input-group">
+          <input type="text" readonly id="generatedCaptcha" class="captcha-generated" />
+          <input type="text" id="enteredCaptcha" class="captcha-user-input" placeholder="Ingrese el código mostrado..." />
+        </div>
+        
+        <div class="captcha-buttons">
+          <button type="button" class="captcha-btn check" onclick="checkCaptcha()">
+            <i class="fas fa-check"></i> Verificar
+          </button>
+          <button type="button" class="captcha-btn generate" onclick="generateCaptcha()">
+            <i class="fas fa-sync-alt"></i> Nuevo Código
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Main Application -->
+    <div class="app-container" id="appContainer">
       <!-- Sidebar -->
       <div class="sidebar" id="sidebar">
         <div class="sidebar-header">
@@ -504,15 +636,10 @@
             <div class="legend-text">Riesgo bajo (1-4 reportes)</div>
           </div>
         </div>
-
-        
       </div>
 
       <!-- Main Map Container -->
       <div class="map-container">
-        <!-- Search Bar -->
-        
-
         <!-- Floating Controls -->
         <div class="floating-controls">
           <button class="control-btn" onclick="centerMap()" title="Centrar mapa">
@@ -545,14 +672,28 @@
     </button>
 
     <script>
-      // Funciones auxiliares para la UI
+      // CAPTCHA Variables and Functions
+     
+
+      // Allow Enter key to submit captcha
+      document.getElementById('enteredCaptcha').addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+          checkCaptcha();
+        }
+      });
+
+      // Initialize captcha on page load
+      window.addEventListener('load', function() {
+        generateCaptcha();
+      });
+
+      // EXISTING APP FUNCTIONS
       function toggleSidebar() {
         const sidebar = document.getElementById('sidebar');
         sidebar.classList.toggle('active');
       }
 
       function centerMap() {
-        // Esta función se conectará con tu map.js
         if (window.map) {
           window.map.setCenter({ lat: 4.711, lng: -74.0721 });
           window.map.setZoom(13);
@@ -560,7 +701,6 @@
       }
 
       function toggleLayer() {
-        // Cambiar entre diferentes vistas del mapa
         console.log('Changing layer...');
       }
 
@@ -570,7 +710,6 @@
         
         setTimeout(() => {
           loadingOverlay.classList.remove('active');
-          // Aquí se conectará con tu función de actualización
         }, 2000);
       }
 
@@ -582,14 +721,13 @@
         }
       }
 
-      // Actualizar estadísticas (se conectará con tu map.js)
       function updateStats(dangerCount, warningCount, safeCount) {
         document.getElementById('dangerZones').textContent = dangerCount;
         document.getElementById('warningZones').textContent = warningCount;
         document.getElementById('safeZones').textContent = safeCount;
       }
 
-      // Cerrar sidebar en mobile al hacer click fuera
+      // Close sidebar on mobile click outside
       document.addEventListener('click', function(e) {
         const sidebar = document.getElementById('sidebar');
         const sidebarToggle = document.querySelector('.sidebar-toggle');
@@ -602,47 +740,57 @@
         }
       });
 
-      // Función para conectar con tu map.js existente
+      // Function to connect with existing map.js
       window.updateMapUI = function(data) {
-        // Contar zonas por tipo de riesgo
         const clusters = [];
 
-    data.forEach(robo => {
-      let added = false;
-      for (const cluster of clusters) {
-        const d = window.getDistanceMeters(
-          cluster.lat, cluster.lng, robo.lat, robo.lng
-        );
-        if (d <= 300) { // Radio de agrupación
-          cluster.count++;
-          added = true;
-          break;
-        }
-      }
-      if (!added) {
-        clusters.push({
-          lat: robo.lat,
-          lng: robo.lng,
-          count: 1
+        data.forEach(robo => {
+          let added = false;
+          for (const cluster of clusters) {
+            const d = window.getDistanceMeters(
+              cluster.lat, cluster.lng, robo.lat, robo.lng
+            );
+            if (d <= 300) {
+              cluster.count++;
+              added = true;
+              break;
+            }
+          }
+          if (!added) {
+            clusters.push({
+              lat: robo.lat,
+              lng: robo.lng,
+              count: 1
+            });
+          }
         });
-      }
-    });
 
-    let dangerZones = 0;
-    let warningZones = 0;
-    let safeZones = 0;
+        let dangerZones = 0;
+        let warningZones = 0;
+        let safeZones = 0;
 
-    clusters.forEach(cluster => {
-      if (cluster.count >= 10) dangerZones++;
-      else if (cluster.count >= 5) warningZones++;
-      else safeZones++;
-    });
+        clusters.forEach(cluster => {
+          if (cluster.count >= 10) dangerZones++;
+          else if (cluster.count >= 5) warningZones++;
+          else safeZones++;
+        });
 
-    updateStats(dangerZones, warningZones, safeZones);
-  };
+        updateStats(dangerZones, warningZones, safeZones);
+      };
     </script>
 
-    <!-- Tu script de mapa original -->
+    <!-- Your existing map script -->
     <script type="module" src="js/map.js"></script>
+    <script src="js/captcha.js"></script>
+    <script type="module" src="js/map.js"></script>
+
+    <script src="js/config.js"></script>
+    <script src="js/map.js"></script>
+
+
+    <script src="js/config.js"></script>
+    <script src="js/map.js"></script>
+
+
   </body>
 </html>
