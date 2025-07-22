@@ -22,7 +22,7 @@
   },
   {
     "lat": 4.7109,
-    "lng": -74.0720,
+    "lng": -74.072,
     "barrio": "Chapinero",
     "hora": "19:50",
     "detalle": "Asalto a peatón."
@@ -69,7 +69,6 @@
     "hora": "14:30",
     "detalle": "Robo de billetera."
   },
-
   {
     "lat": 4.65,
     "lng": -74.1,
@@ -105,7 +104,6 @@
     "hora": "17:00",
     "detalle": "Hurto de bicicleta."
   },
-
   {
     "lat": 4.7,
     "lng": -74.05,
@@ -126,5 +124,15 @@
     "barrio": "Teusaquillo",
     "hora": "19:45",
     "detalle": "Robo de celular."
+  },
+  {
+    "lat": 4.637827,
+    "lng": -74.084663,
+    "barrio": "teusa",
+    "hora": "18:30",
+    "detalle": "Robo de Fue un celular",
+    "fecha": "2025-07-22",
+    "usuario": "Naataaaly",
+    "timestamp": "2025-07-22T11:42:16.991441"
   }
 ]
